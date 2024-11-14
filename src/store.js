@@ -1,14 +1,9 @@
-import { legacy_createStore } from "redux";
+import { legacy_createStore, compose } from "redux";
 import rootReducer from "./reducer";
+import { sayHiOnDispatch, includeMeaningOfLife } from "./exampleAddons/enhancers";
 
-let preloadedState
-const persistedTodoString = localStorage.getItem('todos')
-if (persistedTodoString) {
-    preloadedState = {
-        todos: JSON.parse(persistedTodoString)
-    }
-}
+const composedEnhancer = compose(sayHiOnDispatch, includeMeaningOfLife)
 
-const store = legacy_createStore(rootReducer, preloadedState)
+const store = legacy_createStore(rootReducer, undefined, composedEnhancer)
 
 export default store
